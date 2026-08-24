@@ -1,5 +1,5 @@
 import { createGroq } from '@ai-sdk/groq';
-import { streamText } from 'ai';
+import { convertToModelMessages, streamText } from 'ai';
 
 const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
@@ -14,10 +14,11 @@ export async function POST(req: Request) {
 
   try {
     const { messages } = await req.json();
+    const modelMessages = await convertToModelMessages(messages);
 
     const result = streamText({
       model: groq('qwen/qwen3.6-27b'),
-      messages,
+      messages: modelMessages,
     });
 
     return result.toUIMessageStreamResponse();
