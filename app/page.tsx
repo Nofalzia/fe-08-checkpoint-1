@@ -47,7 +47,6 @@ export default function ChatPage() {
                   key={prompt}
                   onClick={() => {
                     setInput(prompt);
-                    sendMessage({ text: prompt });
                   }}
                   className="text-xs bg-zinc-800 hover:bg-zinc-700 border border-zinc-700/50 px-3 py-2 rounded-lg text-zinc-300 transition"
                 >
@@ -80,7 +79,7 @@ export default function ChatPage() {
         })}
 
         {/* LOADING SKELETON (CLS-proof layout match) */}
-        {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
+        {isLoading && !messages[messages.length - 1]?.parts.some((part) => 'text' in part && part.text.trim()) && (
           <div className="p-3 bg-zinc-800/50 border border-zinc-700/30 rounded-xl w-3/4 animate-pulse space-y-2">
             <div className="h-4 bg-zinc-700/60 rounded w-5/6"></div>
             <div className="h-4 bg-zinc-700/60 rounded w-2/3"></div>
@@ -96,11 +95,12 @@ export default function ChatPage() {
             </div>
             <button
               onClick={() => regenerate()}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 text-red-300 text-xs font-medium rounded-lg transition shrink-0 whitespace-nowrap"
+              disabled={isLoading}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 disabled:cursor-not-allowed disabled:opacity-50 text-red-300 text-xs font-medium rounded-lg transition shrink-0 whitespace-nowrap"
               aria-label="Retry message"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              Retry
+              Retry message
             </button>
           </div>
         )}

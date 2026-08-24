@@ -6,23 +6,21 @@ const groq = createGroq({
 });
 
 export async function POST(req: Request) {
+  /**
+   * SABOTAGE BLOCK: Rate Limit Simulation
+   * Uncomment the return below to test the client's 429 error state.
+   */
+  // return new Response('Rate limit exceeded', { status: 429 });
+
   try {
     const { messages } = await req.json();
-
-    /**
-     * SABOTAGE BLOCK: Rate Limit Simulation
-     * Uncomment the line below to simulate a 429 Rate Limit error.
-     * This tests mid-stream error handling and the retry flow in the UI.
-     * Remove this block before production deployment.
-     */
-    // throw new Error('Rate limit exceeded: 429');
 
     const result = streamText({
       model: groq('llama-3.3-70b-versatile'),
       messages,
     });
 
-    return result.toTextStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error) {
     console.error('Chat API error:', error);
     return new Response(
