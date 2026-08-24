@@ -1,8 +1,20 @@
 'use client';
 
 import { useChat } from '@ai-sdk/react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Sparkles, RefreshCw, AlertCircle, Send } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
+
+function getVisibleContent(parts: Array<{ type?: string; text?: string }>) {
+  return parts
+    .filter((part) => part.type === 'text')
+    .map((part) => part.text ?? '')
+    .join('')
+    .replace(/<think>[\s\S]*?<\/think>/gi, '')
+    .replace(/<think>[\s\S]*$/gi, '')
+    .trim();
+}
 
 export default function ChatPage() {
   const { messages, error, regenerate, sendMessage, status } = useChat();
@@ -60,10 +72,7 @@ export default function ChatPage() {
         {/* MESSAGES LIST */}
         {messages.map((m, idx) => {
           const isUser = m.role === 'user';
-          const content = m.parts
-            ?.map((part) => ('text' in part ? part.text : ''))
-            .join('')
-            ?.trim() || '';
+          const content = getVisibleContent(m.parts);
           return (
             <div
               key={`${m.id}-${idx}`}
@@ -73,7 +82,13 @@ export default function ChatPage() {
                   : 'bg-zinc-800 border border-zinc-700/50 text-zinc-100'
               }`}
             >
-              {content}
+              {isUser ? (
+                content
+              ) : (
+                <div className="chat-markdown">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+                </div>
+              )}
             </div>
           );
         })}

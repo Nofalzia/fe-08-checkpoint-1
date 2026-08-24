@@ -13,6 +13,104 @@ html, body {
   padding-bottom: env(safe-area-inset-bottom, 1rem);
 }
 
+.chat-markdown {
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.chat-markdown > :first-child {
+  margin-top: 0;
+}
+
+.chat-markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.chat-markdown p {
+  margin: 0.65rem 0;
+}
+
+.chat-markdown h1,
+.chat-markdown h2,
+.chat-markdown h3 {
+  color: #fafafa;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 1.1rem 0 0.45rem;
+}
+
+.chat-markdown h1 {
+  font-size: 1.25rem;
+}
+
+.chat-markdown h2 {
+  font-size: 1.1rem;
+}
+
+.chat-markdown h3 {
+  font-size: 1rem;
+}
+
+.chat-markdown ul,
+.chat-markdown ol {
+  margin: 0.65rem 0;
+  padding-left: 1.35rem;
+}
+
+.chat-markdown ul {
+  list-style: disc;
+}
+
+.chat-markdown ol {
+  list-style: decimal;
+}
+
+.chat-markdown li {
+  margin: 0.3rem 0;
+  padding-left: 0.2rem;
+}
+
+.chat-markdown a {
+  color: #93c5fd;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.chat-markdown blockquote {
+  border-left: 2px solid #52525b;
+  color: #a1a1aa;
+  margin: 0.8rem 0;
+  padding-left: 0.8rem;
+}
+
+.chat-markdown code {
+  background: #27272a;
+  border-radius: 0.25rem;
+  color: #f4f4f5;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.88em;
+  padding: 0.12rem 0.3rem;
+}
+
+.chat-markdown pre {
+  background: #18181b;
+  border: 1px solid #3f3f46;
+  border-radius: 0.5rem;
+  margin: 0.8rem 0;
+  overflow-x: auto;
+  padding: 0.8rem;
+}
+
+.chat-markdown pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.chat-markdown hr {
+  border-color: #3f3f46;
+  margin: 1rem 0;
+}
+
 /* Smooth scroll behavior for message list */
 .scroll-smooth {
   scroll-behavior: smooth;
